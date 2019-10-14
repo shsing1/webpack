@@ -6,9 +6,9 @@ module.exports = {
 		"es6": true
 	},
 	"extends": [
-    // "airbnb-base",
     "eslint:recommended",
-    "plugin:vue/recommended"
+    "plugin:vue/recommended",
+    "airbnb-base"
 	],
 	"globals": {
 		"Atomics": "readonly",
@@ -24,21 +24,9 @@ module.exports = {
 		"vue"
 	],
 	"rules": {
-    "indent": [
-      "error",
-      4
-    ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "always"
-    ]
+    'import/no-unresolved': {
+      commonjs: true,
+      amd: true
+    }
 	}
 };

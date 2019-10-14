@@ -4,8 +4,11 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin")
+const smp = new SpeedMeasurePlugin()
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-module.exports = {
+module.exports = smp.wrap({
   mode: 'development',
   entry: {
     app: './src/index.js'
@@ -14,7 +17,10 @@ module.exports = {
     extensions: ['.js', '.json', '.vue'],
     alias: {
       vue: 'vue/dist/vue.esm.js'
-    }
+    },
+    modules: [
+      'node_modules'
+    ]
   },
   devtool: 'inline-source-map',
   devServer: {
@@ -22,6 +28,7 @@ module.exports = {
     hot: true
   },
   module: {
+    // noParse: /^(vue|vue-router|vuex|vuex-router-sync)$/,
     rules: [
       {
         enforce: 'pre',
@@ -38,6 +45,7 @@ module.exports = {
         use: [
           'vue-style-loader',
           'css-loader',
+          'postcss-loader',
           'sass-loader'
         ]
       },
@@ -58,17 +66,32 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: '模块热替换',
+      title: 'Welcome',
       template: './src/index.html'
     }),
+    // new webpack.NamedModulesPlugin(),
+    // new webpack.HashedModuleIdsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new VueLoaderPlugin(),
     new StyleLintPlugin({
       files: ['**/*.{vue,htm,html,css,sss,less,scss,sass}'],
-    })
+    }),
+    new BundleAnalyzerPlugin()
   ],
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist')
+  },
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
   }
-};
+});
