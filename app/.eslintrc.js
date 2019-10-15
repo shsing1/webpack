@@ -27,6 +27,7 @@ module.exports = {
     'import/no-unresolved': {
       commonjs: true,
       amd: true
-    }
+		},
+		"global-require": "off"
 	}
 };

@@ -8,7 +8,7 @@ export default {
   name: 'App',
   data() {
     return {
-      val: 'ddd',
+      val: 'bbb',
     };
   },
   created() {
