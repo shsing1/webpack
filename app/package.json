@@ -17,7 +17,7 @@
   "author": "kid",
   "license": "ISC",
   "dependencies": {
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "vue": "^2.6.10"
   },
   "devDependencies": {
